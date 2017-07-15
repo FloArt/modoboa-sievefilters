@@ -7,7 +7,7 @@ from django import forms
 from django.forms.widgets import (
     RadioFieldRenderer, RadioSelect, RadioChoiceInput)
 from django.http import QueryDict
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_str
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _, ugettext_lazy
@@ -43,7 +43,7 @@ class CustomRadioInput(RadioChoiceInput):
             label_for = ' for="%s_%s"' % (self.attrs['id'], self.index)
         else:
             label_for = ''
-        choice_label = conditional_escape(force_unicode(self.choice_label))
+        choice_label = conditional_escape(force_str(self.choice_label))
         return mark_safe(
             '<label%s class="radio-inline">%s %s</label>'
             % (label_for, self.tag(), choice_label)
@@ -63,7 +63,7 @@ class CustomRadioFieldRenderer(RadioFieldRenderer):
             self.name, self.value, self.attrs.copy(), choice, idx)
 
     def render(self):
-        return mark_safe('\n'.join([force_unicode(w) for w in self]))
+        return mark_safe('\n'.join([force_str(w) for w in self]))
 
 
 class CustomRadioSelect(RadioSelect):
