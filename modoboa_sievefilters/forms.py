@@ -45,7 +45,7 @@ class CustomRadioInput(RadioChoiceInput):
             label_for = ''
         choice_label = conditional_escape(force_unicode(self.choice_label))
         return mark_safe(
-            u'<label%s class="radio-inline">%s %s</label>'
+            '<label%s class="radio-inline">%s %s</label>'
             % (label_for, self.tag(), choice_label)
         )
 
@@ -63,7 +63,7 @@ class CustomRadioFieldRenderer(RadioFieldRenderer):
             self.name, self.value, self.attrs.copy(), choice, idx)
 
     def render(self):
-        return mark_safe(u'\n'.join([force_unicode(w) for w in self]))
+        return mark_safe('\n'.join([force_unicode(w) for w in self]))
 
 
 class CustomRadioSelect(RadioSelect):
@@ -185,7 +185,7 @@ class FilterForm(forms.Form):
                 args = tpl.get("args", [])
         self.fields["action_name_%d" % self.actions_cnt] = (
             forms.ChoiceField(initial=name, choices=actions))
-        for cnt in xrange(0, len(args)):
+        for cnt in range(0, len(args)):
             arg = args[cnt]
             aname = "action_arg_%d_%d" % (self.actions_cnt, cnt)
             if arg["type"] == "string":
@@ -237,11 +237,11 @@ class FilterForm(forms.Form):
     def tofilter(self):
         conditions = []
         actions = []
-        for cpt in xrange(0, self.conds_cnt):
+        for cpt in range(0, self.conds_cnt):
             conditions += [(self.cleaned_data["cond_target_%d" % cpt],
                             ":" + self.cleaned_data["cond_operator_%d" % cpt],
                             self.cleaned_data["cond_value_%d" % cpt])]
-        for cpt in xrange(0, self.actions_cnt):
+        for cpt in range(0, self.actions_cnt):
             naction = (self.cleaned_data["action_name_%d" % cpt],)
             argcpt = 0
             while True:

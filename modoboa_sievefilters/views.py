@@ -97,8 +97,8 @@ def getfs(request, name):
             "modoboa_sievefilters/guieditor.html", {"fs": content})
 
     menu = (
-        u"<ul id='fsetmenu' class='nav nav-sidebar'>"
-        u"<li class='nav-header'>{}</li>{}</ul>".format(
+        "<ul id='fsetmenu' class='nav nav-sidebar'>"
+        "<li class='nav-header'>{}</li>{}</ul>".format(
             _("Actions"), fset_menu(editormode, name)
         )
     )
@@ -108,8 +108,8 @@ def getfs(request, name):
 
 def build_filter_ctx(ctx, form):
     ctx["form"] = form
-    ctx["conds_nb"] = range(form.conds_cnt)
-    ctx["actions_nb"] = range(form.actions_cnt)
+    ctx["conds_nb"] = list(range(form.conds_cnt))
+    ctx["actions_nb"] = list(range(form.actions_cnt))
     return ctx
 
 
@@ -186,7 +186,7 @@ def editfilter(request, setname, fname, tplname="modoboa_sievefilters/filter.htm
         )
 
     fset = sc.getscript(setname, format="fset")
-    if isinstance(fname, unicode):
+    if isinstance(fname, str):
         fname = fname.encode("utf-8")
     f = fset.getfilter(fname)
     form = build_filter_form_from_filter(request, fname, f)
@@ -299,7 +299,7 @@ def download_filters_set(request, name):
 def toggle_filter_state(request, setname, fname):
     sc = SieveClient(user=request.user.username,
                      password=request.session["password"])
-    if isinstance(fname, unicode):
+    if isinstance(fname, str):
         fname = fname.encode("utf-8")
     fset = sc.getscript(setname, format="fset")
     if fset.is_filter_disabled(fname):

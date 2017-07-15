@@ -17,9 +17,7 @@ class SieveClientError(ModoboaException):
     http_code = 424
 
 
-class SieveClient(object):
-    __metaclass__ = ConnectionsManager
-
+class SieveClient(object, metaclass=ConnectionsManager):
     def __init__(self, user=None, password=None):
         try:
             ret, msg = self.login(user, password)
@@ -78,14 +76,14 @@ class SieveClient(object):
             return content
         p = Parser()
         if not p.parse(content):
-            print "Parse error????"
+            print("Parse error????")
             return None
         fs = FiltersSet(name)
         fs.from_parser_result(p)
         return fs
 
     def pushscript(self, name, content, active=False):
-        if isinstance(content, unicode):
+        if isinstance(content, str):
             content = content.encode("utf-8")
         if not self.msc.havespace(name, len(content)):
             error = "%s (%s)" % (

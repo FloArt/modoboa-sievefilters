@@ -51,11 +51,9 @@ class capability(object):
         return wrapped_func
 
 
-class IMAPconnector(object):
+class IMAPconnector(object, metaclass=ConnectionsManager):
 
     """The IMAPv4 connector."""
-
-    __metaclass__ = ConnectionsManager
 
     list_base_pattern = (
         r'\((?P<flags>.*?)\) "(?P<delimiter>.*)" "?(?P<name>[^"]*)"?'
@@ -160,9 +158,9 @@ class IMAPconnector(object):
         """
         import socket
 
-        if isinstance(user, unicode):
+        if isinstance(user, str):
             user = user.encode("utf-8")
-        if isinstance(passwd, unicode):
+        if isinstance(passwd, str):
             passwd = passwd.encode("utf-8")
         try:
             if self.conf["imap_secured"]:
@@ -238,7 +236,7 @@ class IMAPconnector(object):
         for mb in resp:
             if not mb:
                 continue
-            if type(mb) in [str, unicode]:
+            if type(mb) in [str, str]:
                 flags, delimiter, name, childinfo = \
                     self.listextended_response_pattern.match(mb).groups()
             else:
